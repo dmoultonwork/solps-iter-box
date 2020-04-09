@@ -1,0 +1,11 @@
+*dimens         (nx, ny; free format)
+   NX   NY   NX   NY
+*param          (param(0:99); free format)
+  -2.0, 0.0, 0.75, 1.0, -0.010, 0.0, 0.040,
+  5.0, 1.0, 0.02, 0.05, 0.05, 0.05,
+  0.06, 1.0,
+  100*0.0
+'b2agsi_isymm'     '1'
+'b2agfs_geometry'  'grid.sno'
+'b2agfs_periodic_bc' '0'
+'b2agfs_min_pitch'    '0.0'
