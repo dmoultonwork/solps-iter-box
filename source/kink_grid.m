@@ -3,7 +3,11 @@ function grid = kink_grid(grid_vertical,input)
     indsabove = find(grid_vertical.zbr(:,1)>input.kink_Z);
     indsbelow = indsabove(end)+1:input.nx+2;
     % Rotate the grid below the kink point:
-    origin = [grid_vertical.rtr(indsabove(end),end)+input.kink_innrad,grid_vertical.ztr(indsabove(end),end)];
+    if input.kink_ang>0
+        origin = [grid_vertical.rtr(indsabove(end),end)+input.kink_innrad,grid_vertical.ztr(indsabove(end),end)];
+    else
+        origin = [grid_vertical.rbr(indsabove(end),1)-input.kink_innrad,grid_vertical.zbr(indsabove(end),1)];
+    end
     [rc_below,zc_below] = rotate(grid_vertical.rc(indsbelow,:),grid_vertical.zc(indsbelow,:),origin,input.kink_ang);
     [rtl_below,ztl_below] = rotate(grid_vertical.rtl(indsbelow,:),grid_vertical.ztl(indsbelow,:),origin,input.kink_ang);
     [rbl_below,zbl_below] = rotate(grid_vertical.rbl(indsbelow,:),grid_vertical.zbl(indsbelow,:),origin,input.kink_ang);

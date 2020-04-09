@@ -17,14 +17,14 @@ input.dx = 1; %1.53; % Poloidal length from X-point to target separatrix
 input.dy = 0.25; % Radial width of grid
 input.dxg = 0.00001; % Poloidal width of guard cells
 input.dyg = 0.00001; % Radial width of guard cells
-input.ang = 10; % Rotation angle (degrees)
+input.ang = 60; % Rotation angle (degrees)
 input.lx = 0.22; % Exponential poloidal compression length towards the target
 input.ly = 0.33; % Exponential radial compression width towards the separatrix
 input.pfrfrac = 0.4; % Separatrix is positioned a distance pfrfrac*dy along the radial coordinate
 input.makekink = true; % Decides whether to make a kink in the box
 input.kink_Z = -0.5; % Vertical coordinate of kink before box is rotated
-input.kink_ang = 60; % Angle induced by kink
-input.kink_innrad = 0.1; % Inner radius of kink (from maximal radial edge of grid)
+input.kink_ang = -60; % Angle induced by kink
+input.kink_innrad = 0.1; % Inner radius of kink (from radial edge of grid)
 input.kink_nx = 30; % Number of extra grid rows to account for the kink
 %% BC inputs:
 input.lbccon = 0.02; % Fall off length in density boundary condition AKA lambda_n (m)

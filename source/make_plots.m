@@ -31,5 +31,5 @@ subplot(3,2,6); hold on;
 pitch = grid_final.Bp(2:end-1,iysep+1)./sqrt(grid_final.Bp(2:end-1,iysep+1).^2+grid_final.Bt(2:end-1,iysep+1).^2);
 dspol = [0;cumsum(sqrt(diff(grid_final.rc(2:end-1,iysep+1)).^2+diff(grid_final.zc(2:end-1,iysep+1)).^2))];
 Btot = sqrt(grid_final.Bp(2:end-1,iysep+1).^2+grid_final.Bt(2:end-1,iysep+1).^2);
-plot(1./grid_final.rc(2:end-1,iysep+1),Btot);
+plot(dspol./pitch,Btot);
 xlabel('parallel distance along separatrix (m)'); ylabel('magnetic field strength (T)');
