@@ -3,7 +3,7 @@ function grid = create_vertical_grid(input)
 %% Main (non-guard) cells:
 % Calculate the R coordinates of the radial faces of a straight-down box:
 if input.ly>1e10
-    rface = linspace(input.R0-input.dy*input.pfrfrac,input.R0+input.dy*(1-input.pfrfrac),input.ny+1);
+    rface = linspace(-input.dy*input.pfrfrac,+input.dy*(1-input.pfrfrac),input.ny+1);
 else
     dyp = input.pfrfrac*input.dy;
     dys = (1-input.pfrfrac)*input.dy;
@@ -11,20 +11,20 @@ else
     ns = input.ny*(1-input.pfrfrac);
     rfacep = 1-exp(-linspace(0,1,np+1)/input.ly);
     rfacep = rfacep/rfacep(end)*dyp;
-    rfacep = rfacep+input.R0-dyp;
+    rfacep = rfacep-dyp;
     rfaces = 1-exp(-linspace(0,1,ns+1)/input.ly);
     rfaces = rfaces/rfaces(end)*dys;
-    rfaces = -fliplr(rfaces)+input.R0+dys;
+    rfaces = -fliplr(rfaces)+dys;
     rface = [rfacep,rfaces(2:end)];
 end
 rface = [rface(1)-(input.nyp:-1:1)*(rface(2)-rface(1)),rface]; % Add on additional PFR cells in y direction
 % And the Z coordinates of the poloidal faces of a straight-down box:
 if input.lx>1e10
-    zface = linspace(input.Z0,input.Z0-input.dx,input.nx+1);
+    zface = linspace(input.dx/2,-input.dx/2,input.nx+1);
 else
     zface = 1-exp(-linspace(0,1,input.nx+1)/input.lx);
     zface = zface/zface(end)*input.dx;
-    zface = -zface+input.Z0;
+    zface = -zface+input.dx/2;
 end
 % Calculate the R and Z coordinates of the cell centres and vertices:
 rc = repmat(0.5*(rface(1:end-1)+rface(2:end)),input.nx,1);
@@ -64,3 +64,7 @@ grid.zbl = zbl;
 grid.zbr = zbr;
 grid.ztl = ztl;
 grid.ztr = ztr;
+grid.PFX = ones(input.nx+2,input.ny+2);
+grid.dy = grid.rtl-grid.rbl;
+grid.dx = grid.ztl-grid.ztr;
+grid.iysep = find(grid.rc(1,:)>0,1,'first');

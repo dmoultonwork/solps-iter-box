@@ -26,6 +26,7 @@ input.kink_Z = -1; % Vertical coordinate of kink
 input.kink_ang = 45; % Angle induced by kink
 input.kink_innrad = 0.1; % Inner radius of kink (from maximal radial edge of grid)
 input.kink_nx = 8; % Number of extra grid rows to account for the kink
+input.makebulge = false; % Decides whether to make a bulge in the box
 %% BC inputs:
 input.lbccon = 0.02; % Fall off length in density boundary condition AKA lambda_n (m)
 input.lbcen = 0.005; % Fall off length  in energy boundary condition AKA lambda_q (m)

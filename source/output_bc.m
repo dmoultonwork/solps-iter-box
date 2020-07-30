@@ -1,15 +1,13 @@
-function [conpar,enpar] = output_bc(grid_norot,input)
+function [conpar,enpar] = output_bc(rcentre,dy,iysep,input)
 % Fixed density boundary condition: 
-rcentre = grid_norot.rc(1,2:end-1);
-iysep = find(rcentre>=input.R0,1,'first');
 conpar = zeros(1,input.ny+input.nyp);
-conpar(iysep:end) = exp(-(rcentre(iysep:end)- rcentre(iysep))/input.lbccon);
+conpar(iysep-1:end) = exp(-(rcentre(iysep:end-1)- rcentre(iysep))/input.lbccon);
 conpar = input.n0*conpar/max(conpar);
 %% Fixed internal energy flux density boundary condition:
 enpar = zeros(1,input.ny+input.nyp);
-enpar(iysep:end) = exp(-(rcentre(iysep:end)- rcentre(iysep))/input.lbcen);
-enpar = input.powerin*enpar/sum(enpar.*(2*pi*rcentre.*diff(grid_norot.rbl(1,2:end))));
-enpar(enpar<1e4 & rcentre<input.R0) = 0;
+enpar(iysep-1:end) = exp(-(rcentre(iysep:end-1)- rcentre(iysep))/input.lbcen);
+enpar = input.powerin*enpar/sum(enpar.*(2*pi*rcentre(2:end-1).*dy(1,2:end-1)));
+disp(['input power integrates to ',num2str(sum(enpar.*(2*pi*rcentre(2:end-1).*dy(1,2:end-1))/1E6)),' MW']);
 %% Output the bcs to b2.boundary.parameters.out:
 fid = fopen([input.ref_dir,'/b2.boundary.parameters'],'w');
 fprintf(fid,' &BOUNDARY\n');

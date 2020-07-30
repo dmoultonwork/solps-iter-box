@@ -1,7 +1,9 @@
-function [r_rot,z_rot] = rotate(r,z,origin,angle)
-    [th,rho] = cart2pol(r-origin(1),z-origin(2));
-    th = th+angle/360*2*pi;
-    [r_rot,z_rot] = pol2cart(th,rho);
-    r_rot = r_rot+origin(1);
-    z_rot = z_rot+origin(2);
+function [x_mapped,y_mapped] = rotate(x,y,angle)
+    % Express grid points as complex numbers:
+    z=x+1i*y;
+    % Make the rotation:
+    w=exp(1i*angle)*z;
+    % Return the real and imaginary parts of w:
+    x_mapped = real(w);
+    y_mapped = imag(w);
 end

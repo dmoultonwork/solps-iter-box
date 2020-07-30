@@ -68,7 +68,7 @@ for i=1:size(contour.pump,1)
     pump_area = pump_area+sqrt((contour.pump(i,1)-contour.pump(i,3))^2+(contour.pump(i,2)-contour.pump(i,4))^2)*2*pi*0.5*(contour.pump(i,1)+contour.pump(i,3));
 end
 tmp = strfind(input_text, '     RECYCT');
-input_text(tmp(i):tmp(i)+10)=sprintf('%11.5E',1-input.pumpspeed/pump_area/(0.25*sqrt(8*1.38064852E-23/pi/1.6726219e-27))/sqrt(11604.51812*input.walltemp/4));
+% input_text(tmp(i):tmp(i)+10)=sprintf('%11.5E',1-input.pumpspeed/pump_area/(0.25*sqrt(8*1.38064852E-23/pi/1.6726219e-27))/sqrt(11604.51812*input.walltemp/4));
 
 % Now write out the input.dat file:
 fid = fopen([input.ref_dir,'/input.dat'],'w');
