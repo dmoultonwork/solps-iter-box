@@ -1,4 +1,4 @@
-function modify_inputdotdat(contour,input)
+function modify_inputdotdat(contour,grid,input)
 
 % Read the input.dat template
 input_text = fileread([input.template_dir,'input.dat.template']);
@@ -7,19 +7,52 @@ input_text = fileread([input.template_dir,'input.dat.template']);
 % values:
 tmp = strfind(input_text, '    NX');
 for i=1:length(tmp)
-    input_text(tmp(i):tmp(i)+5)=sprintf('%6d',input.nx+input.makekink*input.kink_nx);
+    input_text(tmp(i):tmp(i)+5)=sprintf('%6d',grid.nx);
 end
 tmp = strfind(input_text, '  NX+1');
 for i=1:length(tmp)
-    input_text(tmp(i):tmp(i)+5)=sprintf('%6d',input.nx+input.makekink*input.kink_nx+1);
+    input_text(tmp(i):tmp(i)+5)=sprintf('%6d',grid.nx+1);
 end
 tmp = strfind(input_text, '    NY');
 for i=1:length(tmp)
-    input_text(tmp(i):tmp(i)+5)=sprintf('%6d',input.ny);
+    input_text(tmp(i):tmp(i)+5)=sprintf('%6d',grid.ny);
 end
 tmp = strfind(input_text, '  NY+1');
 for i=1:length(tmp)
-    input_text(tmp(i):tmp(i)+5)=sprintf('%6d',input.ny+1);
+    input_text(tmp(i):tmp(i)+5)=sprintf('%6d',grid.ny+1);
+end
+
+% Replace all occurences of "TARIX" with nx when target is at the right end of
+% the grid, otherwise with 0
+tmp = strfind(input_text, 'TARIX');
+if input.targetendright
+    input_text(tmp:tmp+4)=sprintf('%5d',grid.nx);
+else
+    input_text(tmp:tmp+4)=sprintf('%5d',0);
+end
+
+% Replace all occurences of "TARDR" with 1 when target is at the right end of
+% the grid, otherwise with -1
+tmp = strfind(input_text, 'TARDR');
+if input.targetendright
+    input_text(tmp:tmp+4)=sprintf('%5d',1);
+else
+    input_text(tmp:tmp+4)=sprintf('%5d',-1);
+end
+
+% Replace all occurences of "SURFMOD_RS" and "SURFMOD_LS" with the
+% appropriate surface model, depending on which end the target is:
+tmp = strfind(input_text, 'SURFMOD_RS');
+if input.targetendright
+    input_text(tmp:tmp+10)='SURFMOD_PFC';
+else
+    input_text(tmp:tmp+13)='SURFMOD_DIVENT';
+end
+tmp = strfind(input_text, 'SURFMOD_LS');
+if input.targetendright
+    input_text(tmp:tmp+13)='SURFMOD_DIVENT';
+else
+    input_text(tmp:tmp+10)='SURFMOD_PFC';
 end
 
 % Set the ILIIN values for the inner and outer sides in block 3a (define
@@ -48,7 +81,7 @@ end
 for iseg = 1:size(contour.pump,1)
     block3b = [block3b,sprintf('**%4d :%4d Pumping surface\n',il,il)];    
     block3b = [block3b,sprintf(' 2.00000E+00 1.00000E+00 1.00000E+00 1.00000E-05\n')];
-    block3b = [block3b,sprintf('     1     1     0     0     0     1     0     0     0    -1\n')];
+    block3b = [block3b,sprintf('     1    -3     0     0     0     1     0     0     0    -1\n')]; % Specify -3 for ILSIDE here: from P1 to P2 of pumping segment, left side is transparent
     block3b = [block3b,sprintf('%12.5E%12.5E%12.5E%12.5E%12.5E%12.5E\n',100*contour.pump(iseg,1),100*contour.pump(iseg,2),-1E20,100*contour.pump(iseg,3),100*contour.pump(iseg,4),1E20)];
     block3b = [block3b,sprintf('SURFMOD_PUMP\n')];
     il = il+1;
@@ -68,7 +101,7 @@ for i=1:size(contour.pump,1)
     pump_area = pump_area+sqrt((contour.pump(i,1)-contour.pump(i,3))^2+(contour.pump(i,2)-contour.pump(i,4))^2)*2*pi*0.5*(contour.pump(i,1)+contour.pump(i,3));
 end
 tmp = strfind(input_text, '     RECYCT');
-% input_text(tmp(i):tmp(i)+10)=sprintf('%11.5E',1-input.pumpspeed/pump_area/(0.25*sqrt(8*1.38064852E-23/pi/1.6726219e-27))/sqrt(11604.51812*input.walltemp/4));
+input_text(tmp(i):tmp(i)+10)=sprintf('%11.5E',1-input.pumpspeed/pump_area/(0.25*sqrt(8*1.38064852E-23/pi/1.6726219e-27))/sqrt(11604.51812*input.walltemp/4));
 
 % Now write out the input.dat file:
 fid = fopen([input.ref_dir,'/input.dat'],'w');

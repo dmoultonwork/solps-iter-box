@@ -1,7 +1,7 @@
  &NEUTRALS
  nstrai= 3,
- crcstra=        'E',  'V',  'T',
- rcpos=           NX,    0,    0,
+ crcstra=   'TARDIR',  'V',  'T',
+ rcpos=        TARIX,    0,    0,
  rcstart=          0,    0,    0,
  rcend=         NY-1,    0,    0,
  lstrascl(1,1)=    1,    1,    0,

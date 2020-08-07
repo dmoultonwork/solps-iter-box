@@ -1,4 +1,4 @@
-input = struct();
+function input = defaults()
 %% File locations:
 input.baserun_dir = [pwd,'/baserun']; % Where you want the baserun directory to go
 input.ref_dir = [pwd,'/ref']; % Where you want the reference run directory to go
@@ -27,7 +27,7 @@ input.kink_Z = -0.5; % Vertical coordinate of kink before box is rotated
 input.kink_ang = -60; % Angle induced by kink (degrees)
 input.kink_innrad = 0.1; % Inner radius of kink (from radial edge of grid)
 input.kink_nx = 30; % Number of extra grid rows to account for the kink
-input.makebulgesqueeze = true; % Decides whether to make bulges and/or squeezes
+input.makebulgesqueeze = false; % Decides whether to make bulges and/or squeezes
 input.bulge_position = [-0.3,0.3]; % Poloidal position of the bulge, relative to the poloidal mid-point
 input.bulge_magnitude = [0.05,0.05]; % Size of the bulge
 input.bulge_radius = [0.3,0.3]; % Distance of null points from bulge
@@ -54,5 +54,3 @@ input.pumplength = 0.1; % Length of the pumping surface, placed at the top right
 % input.bottomwall = -0.8; % Z location of bottom wall (m)
 input.pumpprotect = 0.1; % Fraction of radial extent of box at which to place a wall structure to protect the pump
 input.pumpthroat = 0.05; % Length of the width open to the pump (relative to the radial extent of the box)
-
-create_box_files(input);

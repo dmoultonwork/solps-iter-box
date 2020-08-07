@@ -1,0 +1,25 @@
+classdef grid_class
+    properties
+        RBtor
+        nx
+        ny
+        rbl
+        rbr
+        rtl
+        rtr
+        rc
+        zbl
+        zbr
+        ztl
+        ztr
+        zc
+        fratio
+        file_location
+        iysep
+        PFX
+        dy
+        dx
+        ymysep_mp
+        apll_entrance 
+    end
+end

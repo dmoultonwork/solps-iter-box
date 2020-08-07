@@ -31,22 +31,22 @@ T
  1.00000E+00
 *** 3a. Data for non-default standard surfaces                          
      4                                                                          
-*  1: Inner side                                                                
+*  1: Bottom side                                                                
      1     1     1     1     1     1  NX+1     0     0
  ILIIN     0     0     0     0     0     0     0     0     1
 SURFMOD_PFC
-*  2: Outer side                                                                
+*  2: Top side                                                                
      2     1  NY+1  NY+1  NY+1     1  NX+1     0     0
  ILIIN     0     0     0     0     0     0     0     0     2
 SURFMOD_PFC
-*  3: Target                                                                    
+*  3: Right side                                                                    
      3     2  NX+1     1  NY+1  NX+1  NX+1     0     0
      1     0     0     0     0     0     0     0     0     4
-SURFMOD_PFC
-*  4: X point                                                                   
+SURFMOD_RS                    
+*  4: Left side                                                                   
      4     2     1     1  NY+1     1     1     0     0
      1     0     0     0     0     0     0     0     0     3
-SURFMOD_DIVENT
+SURFMOD_LS                    
 *** 3b. Data for additional surfaces                                    
 *** 4. Data for species and atomic physics module                       
 **  Reactions                                                           
@@ -230,7 +230,7 @@ FTFFF
     NX    NY
      1
      1
-     1    NX     1     1     1  NY+1     0 50000     1     1     1     0
+     1 TARIX TARDR     1     1  NY+1     0 50000     1     1     1     0
  3.00000E+00 3.00000E+00 8.00000E+00 2.00000E+01                                
      0
      0
