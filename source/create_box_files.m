@@ -27,7 +27,7 @@ end
 % Create and output b2.boundary.parameters file:
 [conpar,qpll_x_mp] = output_bc(grid,input);
 % Output the grid (Sonnet format):
-output_grid(grid);
+output_grid(grid,input.baserun_dir);
 % Create the EIRENE arrays - contours for tria.in, segments and pump for
 % block 3b:
 eirene_contour = create_eirene_arrays(grid,input); %STILL NEED TO PUT IN PUMP!

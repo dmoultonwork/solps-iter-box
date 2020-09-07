@@ -170,8 +170,6 @@ else
 end
   
 %% Output:
-grid = grid_class;
-grid.file_location = [input.baserun_dir,'/grid.sno'];
 grid.rbl = rbl_isolate;
 grid.rbr = rbr_isolate;
 grid.rtl = rtl_isolate;

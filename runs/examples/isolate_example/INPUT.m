@@ -19,7 +19,7 @@ input.n0 = 2.0E19; % X-point main ion density (/m3)
 input.qpll0 = 0.1E9; % q|| at divertor entrance first SOL ring (W/m2)
 %% EIRENE inputs for additional surfaces:
 input.existing_wallfile = [pwd,'/original_wall.ogr']; % Location of existing wall file for full geometry grid
-% Approximate coordinates of the bottom left, bottom right, top left and top right wall vertices that you want to be linked to the corresponding edges of the isolated grid:
+% Approximate coordinates of the bottom left, bottom right, top left and top right wall vertices (given in the .ogr file) that will be fixed to the corresponding edges of the isolated grid:
 input.wall_bl = [1.4,-5.2];
 input.wall_br = [1.8,-5.0];
 input.wall_tl = [1.2,-5.0];

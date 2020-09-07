@@ -1,6 +1,6 @@
-function output_grid(grid)
+function output_grid(grid,baserun_dir)
 
-fid = fopen(grid.file_location,'w');
+fid = fopen([baserun_dir,'/grid.sno'],'w');
 fprintf(fid,'\n');
 fprintf(fid,'   Element output:\n');
 fprintf(fid,'\n');

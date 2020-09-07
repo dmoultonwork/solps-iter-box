@@ -11,7 +11,7 @@ enpar = zeros(1,grid.ny);
 qpll_x_mp = exp(-(grid.ymysep_mp(iysep:end-1)- grid.ymysep_mp(iysep))/input.lbcen); % qpll at the x-point, mapped to the midplane
 qpll_x_mp = input.qpll0*qpll_x_mp/max(qpll_x_mp);
 enpar(iysep-1:end) = qpll_x_mp.*grid.apll_entrance(iysep:end-1); % multiply by the parallel area at the divertor entrance to get the BC
-disp(['input power integrates to ',2*num2str(sum(enpar)/1E6),' MW (electrons plus ions)']);
+disp(['input power integrates to ',num2str(2*sum(enpar)/1E6,'%.8f'),' MW (electrons plus ions)']);
 %% Output the bcs to b2.boundary.parameters.out:
 fid = fopen([input.ref_dir,'/b2.boundary.parameters'],'w');
 fprintf(fid,' &BOUNDARY\n');

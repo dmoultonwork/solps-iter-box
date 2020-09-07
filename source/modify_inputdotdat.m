@@ -73,7 +73,11 @@ il = 1;
 for iseg = 1:size(contour.seg,1)
     block3b = [block3b,sprintf('*%4d :%4d\n',il,il)];
     block3b = [block3b,sprintf(' 2.00000E+00 1.00000E+00 1.00000E+00 1.00000E-05\n')];
-    block3b = [block3b,sprintf('     1     1     0     0     0     1     0     0     0    -1\n')];
+    if iseg<contour.limpos_tl
+        block3b = [block3b,sprintf('     1     0     0     0     0     1     0     0     0     1\n')];
+    else
+        block3b = [block3b,sprintf('     1     0     0     0     0     1     0     0     0     2\n')];
+    end
     block3b = [block3b,sprintf('%12.5E%12.5E%12.5E%12.5E%12.5E%12.5E\n',100*contour.seg(iseg,1),100*contour.seg(iseg,2),-1E20,100*contour.seg(iseg,3),100*contour.seg(iseg,4),1E20)];
     block3b = [block3b,sprintf('SURFMOD_PFC\n')];
     il = il+1;
@@ -81,7 +85,7 @@ end
 for iseg = 1:size(contour.pump,1)
     block3b = [block3b,sprintf('**%4d :%4d Pumping surface\n',il,il)];    
     block3b = [block3b,sprintf(' 2.00000E+00 1.00000E+00 1.00000E+00 1.00000E-05\n')];
-    block3b = [block3b,sprintf('     1    -3     0     0     0     1     0     0     0    -1\n')]; % Specify -3 for ILSIDE here: from P1 to P2 of pumping segment, left side is transparent
+    block3b = [block3b,sprintf('     1     0     0     0     0     1     0     0     0     0\n')];
     block3b = [block3b,sprintf('%12.5E%12.5E%12.5E%12.5E%12.5E%12.5E\n',100*contour.pump(iseg,1),100*contour.pump(iseg,2),-1E20,100*contour.pump(iseg,3),100*contour.pump(iseg,4),1E20)];
     block3b = [block3b,sprintf('SURFMOD_PUMP\n')];
     il = il+1;
@@ -95,13 +99,28 @@ for i=1:length(tmp)
     input_text(tmp(i):tmp(i)+11)=['-',sprintf('%11.5E',input.walltemp)];
 end
 
-% Set the pumping albedo:
+% Set the transparency of the pumping surface:
 pump_area = 0;
 for i=1:size(contour.pump,1)
     pump_area = pump_area+sqrt((contour.pump(i,1)-contour.pump(i,3))^2+(contour.pump(i,2)-contour.pump(i,4))^2)*2*pi*0.5*(contour.pump(i,1)+contour.pump(i,3));
 end
-tmp = strfind(input_text, '     RECYCT');
-input_text(tmp(i):tmp(i)+10)=sprintf('%11.5E',1-input.pumpspeed/pump_area/(0.25*sqrt(8*1.38064852E-23/pi/1.6726219e-27))/sqrt(11604.51812*input.walltemp/4));
+tmp = strfind(input_text, '     TRANSP'); % From P1 to P2 of pumping segment, left side is transparent, right side is transparent with following probability, otherwise absorbing
+transp = 1-input.pumpspeed/pump_area/(0.25*sqrt(8*1.38064852E-23/pi/1.6726219e-27))/sqrt(11604.51812*input.walltemp/4);
+if transp<0
+    error('Maximum possible pumping speed exceeded');
+end
+input_text(tmp(i):tmp(i)+10)=sprintf('%11.5E',transp);
+
+% Write block 15 at the end: % Fix this for non-isolated, non-tight grids
+if input.isolate_existing_grid
+    input_text = [input_text,sprintf('%6d%6d\n',0,4)];
+    input_text = [input_text,sprintf('%6d%6d\n',contour.limpos_bl,1)];
+    input_text = [input_text,sprintf('%6d%6d\n',contour.limpos_tl,2)];
+    input_text = [input_text,sprintf('%6d%6d\n',contour.limpos_br,2)];
+    input_text = [input_text,sprintf('%6d%6d',contour.limpos_tr,1)];
+else
+    input_text = [input_text,sprintf('%6d%6d',0,0)];
+end
 
 % Now write out the input.dat file:
 fid = fopen([input.ref_dir,'/input.dat'],'w');

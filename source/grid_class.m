@@ -14,7 +14,6 @@ classdef grid_class
         ztr
         zc
         fratio
-        file_location
         iysep
         PFX
         dy

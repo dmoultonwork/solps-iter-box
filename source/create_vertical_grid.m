@@ -53,7 +53,7 @@ rbr = rbl;
 rtl = [rtl(:,1)-abs(rface(1)-rface(2)),rtl,rtl(:,end)+input.dyg];
 rtr = rtl;
 %% Output:
-grid = struct();
+grid = grid_class;
 grid.rc = rc;
 grid.rbl = rbl;
 grid.rbr = rbr;
@@ -68,3 +68,6 @@ grid.PFX = ones(input.nx+2,input.ny+2);
 grid.dy = grid.rtl-grid.rbl;
 grid.dx = grid.ztl-grid.ztr;
 grid.iysep = find(grid.rc(1,:)>0,1,'first');
+grid.nx = size(grid.rbl,1)-2;
+grid.ny = size(grid.rbl,2)-2;
+grid.RBtor = input.RBtor;

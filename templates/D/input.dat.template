@@ -2,7 +2,7 @@
 *** 1. Data for operating mode                                          
      2     1     5 30000     1     1     0     1     0
     -1     1     0     1     1     9     1     0     1
-TFFTF FFFFF FFFTF F
+TFFTF FFFFF TFFTF F
 CFILE AMJUEL Database/AMdata/amjuel.tex        
 CFILE HYDHEL Database/AMdata/hydhel.tex        
 CFILE SPUTER Database/Surfacedata/SPUTER       
@@ -33,19 +33,19 @@ T
      4                                                                          
 *  1: Bottom side                                                                
      1     1     1     1     1     1  NX+1     0     0
- ILIIN     0     0     0     0     0     0     0     0     1
+ ILIIN     0     0     0     0     0     0     0     0     2
 SURFMOD_PFC
 *  2: Top side                                                                
      2     1  NY+1  NY+1  NY+1     1  NX+1     0     0
- ILIIN     0     0     0     0     0     0     0     0     2
+ ILIIN     0     0     0     0     0     0     0     0     1
 SURFMOD_PFC
 *  3: Right side                                                                    
      3     2  NX+1     1  NY+1  NX+1  NX+1     0     0
-     1     0     0     0     0     0     0     0     0     4
+     1     0     0     0     0     0     0     0     0     0
 SURFMOD_RS                    
 *  4: Left side                                                                   
      4     2     1     1  NY+1     1     1     0     0
-     1     0     0     0     0     0     0     0     0     3
+     1     0     0     0     0     0     0     0     0     0
 SURFMOD_LS                    
 *** 3b. Data for additional surfaces                                    
 *** 4. Data for species and atomic physics module                       
@@ -133,8 +133,8 @@ SURFMOD_DIVENT
  1.00000E+00 0.00000E+00 1.00000E+00 1.00000E+00 5.00000E-01 1.00000E+00
 SURFMOD_PUMP
      1     2     0     0     
- 5.62600E+03       EWALL 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
- 1.00000E+00      RECYCT 0.00000E+00 1.00000E+00 5.00000E-01 1.00000E+00
+ 5.62600E+03       EWALL 0.00000E+00 1.00000E+00      TRANSP 0.00000E+00
+ 1.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00 5.00000E-01 1.00000E+00
 *** 7. Data for primary sources, nstrai strata                                  
      2
      6    -1
@@ -235,6 +235,3 @@ FTFFF
      0
      0
 *** 15. Data for interfacing routine "geousr"                           
-     0     1     0
-     1     0
-     0     1                                                                    
