@@ -40,6 +40,8 @@ modify_inputdotdat(eirene_contour,grid,input);
 modify_b2ag(grid,input);
 % And the same for the b2.neutrals.parameters template file:
 modify_b2neutrals(grid,input);
+% Put the right jsep into b2mn.dat:
+modify_b2mn(grid,input);
 % Copy standard input files into baserun and ref:
 copy_standard_files(input);
 % Make plots:

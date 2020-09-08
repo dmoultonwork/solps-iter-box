@@ -21,6 +21,14 @@ end
 % Replace all occurences of "NY" with its actual value:
 tmp = strfind(b2neut_text, ' NY-1');
 b2neut_text(tmp:tmp+4)=sprintf('%5d',grid.ny-1);
+% Replace all occurences of LTNS with the eirene target surface index in
+% block 3a:
+tmp = strfind(b2neut_text, 'LTNS');
+if input.targetendright
+    b2neut_text(tmp:tmp+3)=sprintf('%4d',3);
+else
+    b2neut_text(tmp:tmp+3)=sprintf('%4d',4);
+end
 
 % Now write out the b2ag.dat file:
 fid = fopen([input.ref_dir,'/b2.neutrals.parameters'],'w');
