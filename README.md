@@ -5,7 +5,7 @@ A quick guide to using solps-iter-box:
 3) Copy the baserun and ref directories that have been created in your run directory to the server where you want to run the simulation.
 4) On that server, go into baserun and type the following:
 b2run b2ag [enter]
-triang [enter] (at this point you will be given some letter options. For a "tight" wall scenario type "G [enter] [ctrl-c]". For a "cyd" wall scenario type "T [enter] G [enter] [ctrl-c]")
+triang [enter] (at this point you will be given some letter options. Type "T [enter] G [enter] [ctrl-c]")
 b2run b2ah [enter]
 b2run b2ai [enter]
 b2run b2ar [enter]

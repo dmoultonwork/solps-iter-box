@@ -1,7 +1,7 @@
 *tlohi          (tlo, thi; real, free format)
   1.0e-1  1.0e4
 *nlohi          (nlo, nhi; real, free format)
-  1.0e16  1.0e22
+  1.0e14  1.0e22
 *numnuc         (nnuc; integer, free format)
    1
 *nucspec        (nz, izlo, izhi; integers, one triple per line)

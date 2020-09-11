@@ -33,19 +33,19 @@ fprintf(fid,' ENIPAR    =%s\n',sprintf('%12e,',[0,0,enpar,1.5]));
 fprintf(fid,' POTPAR    =%s\n',sprintf('%12e,',repmat(0,1,grid.ny+3)));
 fprintf(fid,' BCCON(0,1)=%s CONPAR(0,1,1)=%s\n',sprintf('%2d,',[1 5]),sprintf('%12e,',[0 0]));
 fprintf(fid,' BCCON(0,2)=%s CONPAR(0,2,1)=%s\n',sprintf('%2d,',[1 5]),sprintf('%12e,',[0 0]));
-for it = 1:iysep-1
+for it = 1:iysep-2
     fprintf(fid,' BCCON(0,%d)=%s CONPAR(0,%d,1)=%s\n',it+2,sprintf('%2d,',[1 2]),it+2,sprintf('%12e,',[0 0]));
 end
-for it = iysep:grid.ny
+for it = iysep-1:grid.ny
     fprintf(fid,' BCCON(0,%d)=%s CONPAR(0,%d,1)=%s\n',it+2,sprintf('%2d,',[1 1]),it+2,sprintf('%12e,',[0 conpar(it)]));
 end
 fprintf(fid,' BCCON(0,%d)=%s CONPAR(0,%d,1)=%s\n',grid.ny+3,sprintf('%2d,',[1 3]),grid.ny+3,sprintf('%12e,',[0 0]));
 fprintf(fid,' BCMOM(0,1)=%s MOMPAR(0,1,1)=%s\n',sprintf('%2d,',[5 5]),sprintf('%12e,',[0 0]));
 fprintf(fid,' BCMOM(0,2)=%s MOMPAR(0,2,1)=%s\n',sprintf('%2d,',[5 5]),sprintf('%12e,',[0 0]));
-for it = 1:iysep-1
+for it = 1:iysep-2
     fprintf(fid,' BCMOM(0,%d)=%s MOMPAR(0,%d,1)=%s\n',it+2,sprintf('%2d,',[1 1]),it+2,sprintf('%12e,',[0 0]));
 end
-for it = iysep:grid.ny
+for it = iysep-1:grid.ny
     fprintf(fid,' BCMOM(0,%d)=%s MOMPAR(0,%d,1)=%s\n',it+2,sprintf('%2d,',[1 2]),it+2,sprintf('%12e,',[0 0]));
 end
 fprintf(fid,' BCMOM(0,%d)=%s MOMPAR(0,%d,1)=%s MOMPAR(0,%d,2)=%s\n',grid.ny+3,sprintf('%2d,',[1 3]),grid.ny+3,sprintf('%12e,',[0 1]),grid.ny+3,sprintf('%12e,',[1 1]));

@@ -1,8 +1,8 @@
 function output_tria(contour,grid,input)
 
-if strcmp(input.wall_scenario,'tight')
-    return % tria.in file not needed in tight geometry - no triangles outside B2.5 grid
-end
+% if strcmp(input.wall_scenario,'tight')
+%     return % tria.in file not needed in tight geometry - no triangles outside B2.5 grid
+% end
     
 % Write the tria.in file:
 fid = fopen([input.baserun_dir,'/tria.in'],'w');

@@ -59,11 +59,11 @@ end
 % the type of surface):
 tmp = strfind(input_text, ' ILIIN');
 for i=1:length(tmp)
-    if strcmp(input.wall_scenario,'tight')
-        input_text(tmp(i):tmp(i)+5)=sprintf('%6d',1);
-    else
+%     if strcmp(input.wall_scenario,'tight')
+%         input_text(tmp(i):tmp(i)+5)=sprintf('%6d',1);
+%     else
         input_text(tmp(i):tmp(i)+5)=sprintf('%6d',-3);
-    end
+%     end
 end
 
 % Create block 3b text containing wall and pump segments, and insert it into 
@@ -109,18 +109,18 @@ transp = 1-input.pumpspeed/pump_area/(0.25*sqrt(8*1.38064852E-23/pi/1.6726219e-2
 if transp<0
     error('Maximum possible pumping speed exceeded');
 end
-input_text(tmp(i):tmp(i)+10)=sprintf('%11.5E',transp);
+input_text(tmp:tmp+10)=sprintf('%11.5E',transp);
 
 % Write block 15 at the end: % Fix this for non-isolated, non-tight grids
-if input.isolate_existing_grid
+% if input.isolate_existing_grid
     input_text = [input_text,sprintf('%6d%6d\n',0,4)];
     input_text = [input_text,sprintf('%6d%6d\n',contour.limpos_bl,1)];
     input_text = [input_text,sprintf('%6d%6d\n',contour.limpos_tl,2)];
     input_text = [input_text,sprintf('%6d%6d\n',contour.limpos_br,2)];
     input_text = [input_text,sprintf('%6d%6d',contour.limpos_tr,1)];
-else
-    input_text = [input_text,sprintf('%6d%6d',0,0)];
-end
+% else
+%     input_text = [input_text,sprintf('%6d%6d',0,0)];
+% end
 
 % Now write out the input.dat file:
 fid = fopen([input.ref_dir,'/input.dat'],'w');
