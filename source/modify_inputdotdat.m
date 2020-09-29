@@ -59,19 +59,20 @@ end
 % the type of surface):
 tmp = strfind(input_text, ' ILIIN');
 for i=1:length(tmp)
-%     if strcmp(input.wall_scenario,'tight')
-%         input_text(tmp(i):tmp(i)+5)=sprintf('%6d',1);
-%     else
+    if strcmp(input.wall_scenario,'tight')
+        input_text(tmp(i):tmp(i)+5)=sprintf('%6d',1);
+    else
         input_text(tmp(i):tmp(i)+5)=sprintf('%6d',-3);
-%     end
+    end
 end
 
 % Create block 3b text containing wall and pump segments, and insert it into 
 % input.dat:
-block3b = sprintf('%6d\n',size(contour.seg,1)+size(contour.pump,1));
+%block3b = sprintf('%6d\n',size(contour.seg,1)+size(contour.pump,1)); %Omitted by Ryoko
 il = 1;
+nonconnect = 0;
 for iseg = 1:size(contour.seg,1)
-    block3b = [block3b,sprintf('*%4d :%4d\n',il,il)];
+    block3b = [sprintf('*%4d :%4d\n',il,il)];%[block3b,sprintf('*%4d :%4d\n',il,il)]; % Modfied by Ryoko
     block3b = [block3b,sprintf(' 2.00000E+00 1.00000E+00 1.00000E+00 1.00000E-05\n')];
     if iseg<contour.limpos_tl
         block3b = [block3b,sprintf('     1     0     0     0     0     1     0     0     0     1\n')];
@@ -81,7 +82,16 @@ for iseg = 1:size(contour.seg,1)
     block3b = [block3b,sprintf('%12.5E%12.5E%12.5E%12.5E%12.5E%12.5E\n',100*contour.seg(iseg,1),100*contour.seg(iseg,2),-1E20,100*contour.seg(iseg,3),100*contour.seg(iseg,4),1E20)];
     block3b = [block3b,sprintf('SURFMOD_PFC\n')];
     il = il+1;
+%---From here added by Ryoko 1/2---
+    if contour.seg(iseg,1)==contour.seg(iseg-1,3) && contour.seg(iseg,2)==contour.seg(iseg-1,4)
+        nonconnect = nonconnect;
+    else
+        nonconnect = nonconnect + 1;
+        addseg(nonconnect) = [sprintf('%12.5E%12.5E%12.5E%12.5E%12.5E%12.5E\n',100*contour.seg(iseg-1,3),100*contour.seg(iseg-1,4),-1E20,100*contour.seg(iseg,1),100*contour.seg(iseg,2),1E20)];
+    end
 end
+addseg(nonconnect+1)= [sprintf('%12.5E%12.5E%12.5E%12.5E%12.5E%12.5E\n',100*contour.seg(size(contour.seg,1),3),100*contour.seg(size(contour.seg,1),4),-1E20,100*contour.seg(1,1),100*contour.seg(1,2),1E20)];
+%---End here-------------------
 for iseg = 1:size(contour.pump,1)
     block3b = [block3b,sprintf('**%4d :%4d Pumping surface\n',il,il)];    
     block3b = [block3b,sprintf(' 2.00000E+00 1.00000E+00 1.00000E+00 1.00000E-05\n')];
@@ -90,6 +100,18 @@ for iseg = 1:size(contour.pump,1)
     block3b = [block3b,sprintf('SURFMOD_PUMP\n')];
     il = il+1;
 end
+%---From here added by Ryoko 2/2---
+for iseg = 1:nonconnect+1
+    block3b = [block3b,sprintf('**%4d :%4d Transparent surface for a closed shadowing structure\n',il,il)];    
+    block3b = [block3b,sprintf(' 2.00000E+00 1.00000E+00 1.00000E+00 1.00000E-05\n')];
+    block3b = [block3b,sprintf('     0     0     0     0     0     0     0     0     0\n')];
+    block3b = [block3b,addseg(iseg)];
+    il = il+1;
+end
+tmp = strfind(input_text, 'NSEG');
+input_text(tmp:tmp+3)=sprintf('%6d\n',size(contour.seg,1)+size(contour.pump,1)+nonconnect+1);
+%---End here-------------------
+
 tmp = strfind(input_text, '*** 4');
 input_text = [input_text(1:tmp-1),block3b,input_text(tmp:end)];
 
@@ -109,18 +131,18 @@ transp = 1-input.pumpspeed/pump_area/(0.25*sqrt(8*1.38064852E-23/pi/1.6726219e-2
 if transp<0
     error('Maximum possible pumping speed exceeded');
 end
-input_text(tmp:tmp+10)=sprintf('%11.5E',transp);
+input_text(tmp(i):tmp(i)+10)=sprintf('%11.5E',transp);
 
 % Write block 15 at the end: % Fix this for non-isolated, non-tight grids
-% if input.isolate_existing_grid
+if input.isolate_existing_grid
     input_text = [input_text,sprintf('%6d%6d\n',0,4)];
     input_text = [input_text,sprintf('%6d%6d\n',contour.limpos_bl,1)];
     input_text = [input_text,sprintf('%6d%6d\n',contour.limpos_tl,2)];
     input_text = [input_text,sprintf('%6d%6d\n',contour.limpos_br,2)];
     input_text = [input_text,sprintf('%6d%6d',contour.limpos_tr,1)];
-% else
-%     input_text = [input_text,sprintf('%6d%6d',0,0)];
-% end
+else
+    input_text = [input_text,sprintf('%6d%6d',0,0)];
+end
 
 % Now write out the input.dat file:
 fid = fopen([input.ref_dir,'/input.dat'],'w');

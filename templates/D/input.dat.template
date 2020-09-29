@@ -33,7 +33,7 @@ T
      4                                                                          
 *  1: Bottom side                                                                
      1     1     1     1     1     1  NX+1     0     0
- ILIIN     0     0     0     0     0     0     0     0     2
+ ILIIN     0     0     0     0     0     0     0     0     1 
 SURFMOD_PFC
 *  2: Top side                                                                
      2     1  NY+1  NY+1  NY+1     1  NX+1     0     0
@@ -41,13 +41,14 @@ SURFMOD_PFC
 SURFMOD_PFC
 *  3: Right side                                                                    
      3     2  NX+1     1  NY+1  NX+1  NX+1     0     0
-     1     0     0     0     0     0     0     0     0     0
+     1     0     0     0     0     0     0     0     0     1
 SURFMOD_RS                    
 *  4: Left side                                                                   
      4     2     1     1  NY+1     1     1     0     0
-     1     0     0     0     0     0     0     0     0     0
+     1     0     0     0     0     0     0     0     0     1
 SURFMOD_LS                    
 *** 3b. Data for additional surfaces                                    
+  NSEG
 *** 4. Data for species and atomic physics module                       
 **  Reactions                                                           
     19

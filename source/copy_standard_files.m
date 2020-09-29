@@ -8,3 +8,4 @@ copyfile([input.standard_dir,'tria.neighbor'],input.baserun_dir);
 copyfile([input.standard_dir,'tria.nodes'],input.baserun_dir);
 
 copyfile([input.standard_dir,'b2.transport.parameters'],input.ref_dir);
+copyfile([input.standard_dir,'param.dg'],input.ref_dir);

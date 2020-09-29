@@ -1,0 +1,13 @@
+userdata
+p1
+p2
+material
+trg_spcf 1 
+sol_edge 
+ IS
+pfr_edge
+ IP
+shdw_str 1
+segmlist
+finish
+
