@@ -54,3 +54,4 @@ input.pumplength = 0.1; % Length of the pumping surface, placed at the top right
 input.pumpprotect = 0.1; % Fraction of radial extent of box at which to place a wall structure to protect the pump
 input.pumpthroat = 0.05; % Length of the width open to the pump (relative to the radial extent of the box)
 input.wallgap = 0.001; % Gap between the EIRENE bounding wall and the radial edges of the B2.5 grid (m). Defaults to a tight gap of just 1 cm.
+input.wallmater = 'C';%wall material

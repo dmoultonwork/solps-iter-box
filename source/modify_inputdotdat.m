@@ -44,7 +44,7 @@ end
 % appropriate surface model, depending on which end the target is:
 tmp = strfind(input_text, 'SURFMOD_RS');
 if input.targetendright
-    input_text(tmp:tmp+10)='SURFMOD_PFC';
+    input_text(tmp:tmp+10)='SURFMOD_DIV';
 else
     input_text(tmp:tmp+13)='SURFMOD_DIVENT';
 end
@@ -52,7 +52,7 @@ tmp = strfind(input_text, 'SURFMOD_LS');
 if input.targetendright
     input_text(tmp:tmp+13)='SURFMOD_DIVENT';
 else
-    input_text(tmp:tmp+10)='SURFMOD_PFC';
+    input_text(tmp:tmp+10)='SURFMOD_DIV';
 end
 
 % Set the ILIIN values for the inner and outer sides in block 3a (define
@@ -65,14 +65,13 @@ for i=1:length(tmp)
         input_text(tmp(i):tmp(i)+5)=sprintf('%6d',-3);
     end
 end
-
 % Create block 3b text containing wall and pump segments, and insert it into 
 % input.dat:
-%block3b = sprintf('%6d\n',size(contour.seg,1)+size(contour.pump,1)); %Omitted by Ryoko
+block3b = sprintf('');%sprintf('%6d\n',size(contour.seg,1)+size(contour.pump,1)); %Omitted by Ryoko
 il = 1;
 nonconnect = 0;
 for iseg = 1:size(contour.seg,1)
-    block3b = [sprintf('*%4d :%4d\n',il,il)];%[block3b,sprintf('*%4d :%4d\n',il,il)]; % Modfied by Ryoko
+    block3b = [block3b,sprintf('*%4d :%4d\n',il,il)];
     block3b = [block3b,sprintf(' 2.00000E+00 1.00000E+00 1.00000E+00 1.00000E-05\n')];
     if iseg<contour.limpos_tl
         block3b = [block3b,sprintf('     1     0     0     0     0     1     0     0     0     1\n')];
@@ -80,17 +79,22 @@ for iseg = 1:size(contour.seg,1)
         block3b = [block3b,sprintf('     1     0     0     0     0     1     0     0     0     2\n')];
     end
     block3b = [block3b,sprintf('%12.5E%12.5E%12.5E%12.5E%12.5E%12.5E\n',100*contour.seg(iseg,1),100*contour.seg(iseg,2),-1E20,100*contour.seg(iseg,3),100*contour.seg(iseg,4),1E20)];
-    block3b = [block3b,sprintf('SURFMOD_PFC\n')];
-    il = il+1;
-%---From here added by Ryoko 1/2---
-    if contour.seg(iseg,1)==contour.seg(iseg-1,3) && contour.seg(iseg,2)==contour.seg(iseg-1,4)
-        nonconnect = nonconnect;
+%---From here modified/added by Ryoko 1/3---
+    if iseg == 1 || iseg == size(contour.seg,1)
+        block3b = [block3b,sprintf('SURFMOD_DIV\n')];%NOT APPLICABLE TO EVERY CASE!!!
     else
+        block3b = [block3b,sprintf('SURFMOD_PFC\n')];
+    end
+    il = il+1;
+    if iseg>2
+        if contour.seg(iseg,1)==contour.seg(iseg-1,3) && contour.seg(iseg,2)==contour.seg(iseg-1,4)
+        nonconnect = nonconnect;
+        else
         nonconnect = nonconnect + 1;
-        addseg(nonconnect) = [sprintf('%12.5E%12.5E%12.5E%12.5E%12.5E%12.5E\n',100*contour.seg(iseg-1,3),100*contour.seg(iseg-1,4),-1E20,100*contour.seg(iseg,1),100*contour.seg(iseg,2),1E20)];
+        addseg(nonconnect) = iseg;
+        end
     end
 end
-addseg(nonconnect+1)= [sprintf('%12.5E%12.5E%12.5E%12.5E%12.5E%12.5E\n',100*contour.seg(size(contour.seg,1),3),100*contour.seg(size(contour.seg,1),4),-1E20,100*contour.seg(1,1),100*contour.seg(1,2),1E20)];
 %---End here-------------------
 for iseg = 1:size(contour.pump,1)
     block3b = [block3b,sprintf('**%4d :%4d Pumping surface\n',il,il)];    
@@ -100,16 +104,21 @@ for iseg = 1:size(contour.pump,1)
     block3b = [block3b,sprintf('SURFMOD_PUMP\n')];
     il = il+1;
 end
-%---From here added by Ryoko 2/2---
-for iseg = 1:nonconnect+1
+%---From here added by Ryoko 2/3---
+for iseg = 1:nonconnect
     block3b = [block3b,sprintf('**%4d :%4d Transparent surface for a closed shadowing structure\n',il,il)];    
     block3b = [block3b,sprintf(' 2.00000E+00 1.00000E+00 1.00000E+00 1.00000E-05\n')];
     block3b = [block3b,sprintf('     0     0     0     0     0     0     0     0     0\n')];
-    block3b = [block3b,addseg(iseg)];
+    block3b = [block3b,sprintf('%12.5E%12.5E%12.5E%12.5E%12.5E%12.5E\n',100*contour.seg(addseg(iseg)-1,3),100*contour.seg(addseg(iseg)-1,4),-1E20,100*contour.seg(addseg(iseg),1),100*contour.seg(addseg(iseg),2),1E20)];
     il = il+1;
 end
+block3b = [block3b,sprintf('**%4d :%4d Transparent surface for a closed shadowing structure\n',il,il)];    
+block3b = [block3b,sprintf(' 2.00000E+00 1.00000E+00 1.00000E+00 1.00000E-05\n')];
+block3b = [block3b,sprintf('     0     0     0     0     0     0     0     0     0\n')];
+block3b = [block3b,sprintf('%12.5E%12.5E%12.5E%12.5E%12.5E%12.5E\n',100*contour.seg(size(contour.seg,1),3),100*contour.seg(size(contour.seg,1),4),-1E20,100*contour.seg(1,1),100*contour.seg(1,2),1E20)];
+
 tmp = strfind(input_text, 'NSEG');
-input_text(tmp:tmp+3)=sprintf('%6d\n',size(contour.seg,1)+size(contour.pump,1)+nonconnect+1);
+input_text(tmp:tmp+3)=sprintf('%4d',size(contour.seg,1)+size(contour.pump,1)+nonconnect+1);
 %---End here-------------------
 
 tmp = strfind(input_text, '*** 4');
@@ -120,6 +129,19 @@ tmp = strfind(input_text, '       EWALL');
 for i=1:length(tmp)
     input_text(tmp(i):tmp(i)+11)=['-',sprintf('%11.5E',input.walltemp)];
 end
+%----From here added by Ryoko 3/3---
+% Set the wall material:
+tmp = strfind(input_text, '        ZNML');
+switch input.wallmater
+    case 'C'
+        znml = 1.2060E3;
+    case 'W'
+        znml = 1.8474E4;
+end
+for i=1:length(tmp)
+    input_text(tmp(i):tmp(i)+11)=[' ',sprintf('%11.5E',znml)];
+end
+%----end here-------
 
 % Set the transparency of the pumping surface:
 pump_area = 0;
