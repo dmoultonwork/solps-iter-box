@@ -1,5 +1,6 @@
-function make_plots(grid_final,contour,conpar,qpll_x_mp)
-
+%function make_plots(grid_final,contour,conpar,qpll_x_mp)
+% function make_plots(grid_final,contour,fnxpll_x_mp,qpll_x_mp)
+function make_plots(grid_final,contour,conpar,qpll_x_mp,input)
 % Plot the B2.5 grid:
 figure('windowstyle','docked');
 subplot(3,2,[1,3,5]); hold on;
@@ -20,7 +21,14 @@ for ic=1:length(contour.tria)
 end
 %% Plot the main ion density and internal energy flux density BCs:
 subplot(3,2,2); hold on;
-plot(grid_final.ymysep_mp(grid_final.iysep:end-1),conpar(grid_final.iysep-1:end),'marker','.'); xlabel('y-y_{sep} at midplane(m)'); ylabel('density BC (m^{-3})');
+switch input.densbc
+    case 'density'
+        plot(grid_final.ymysep_mp(grid_final.iysep:end-1),conpar(grid_final.iysep-1:end),'marker','.'); xlabel('y-y_{sep} at midplane(m)'); ylabel('density BC (m^{-3})');
+    case 'flux'
+        plot(grid_final.ymysep_mp(grid_final.iysep:end-1),conpar(grid_final.iysep-1:end)./grid_final.apll_entrance(grid_final.iysep:end-1),'marker','.'); xlabel('y-y_{sep} at midplane(m)'); ylabel('parallel particle flux (m^{-2}s^{-1})');
+%        conpar(iysep-1:end) = fnxpll_x_mp.*grid.apll_entrance(iysep:end-1);
+%         plot(grid_final.ymysep_mp(grid_final.iysep:end-1),fnxpll_x_mp,'marker','.'); xlabel('y-y_{sep} at midplane(m)'); ylabel('parallel particle flux (m^{-2}s^{-1})');
+end
 subplot(3,2,4); hold on;
 plot(grid_final.ymysep_mp(grid_final.iysep:end-1),qpll_x_mp,'marker','.'); xlabel('y-y_{sep} at midplane(m)'); ylabel('q|| at divertor entrance (Wm^{-2})');
 % subplot(3,2,6); hold on;

@@ -42,8 +42,10 @@ modify_b2ag(grid,input);
 modify_b2neutrals(grid,input);
 % Put the right jsep into b2mn.dat:
 modify_b2mn(grid,input);
+% Modify the param.dg file to output wall loading datas
+modify_paramdotdg(eirene_contour,grid,input);
 % Copy standard input files into baserun and ref:
 copy_standard_files(input);
 % Make plots:
-make_plots(grid,eirene_contour,conpar,qpll_x_mp);
-
+% make_plots(grid,eirene_contour,conpar,qpll_x_mp);
+make_plots(grid,eirene_contour,conpar,qpll_x_mp,input);

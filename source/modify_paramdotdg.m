@@ -53,8 +53,36 @@ material = sprintf('');
 for iseg = 1:size(contour.seg,1)+nonconnect+1
     material = [material,sprintf('  C\n')];
 end
-tmp = strfind(paramdotdg_text, 'trg');
+tmp = strfind(paramdotdg_text, 'plotzone');
 paramdotdg_text = [paramdotdg_text(1:tmp-1),material,paramdotdg_text(tmp:end)];
+%Plotzone
+tmp = strfind(paramdotdg_text, 'plotzone');
+pltzseg = sprintf('');
+pltzsw = 0;
+pltzsegst = 1;%dummy
+%contour.seg(4,1)
+for iseg = 1:size(contour.seg,1)
+    if abs(contour.seg(iseg,1)-input.pltzst(1))<0.001
+%if 10*contour.seg(iseg,1)==input.pltzst
+        pltzsegst = iseg;      
+        pltzsw = 1;
+    end
+end
+for iseg = pltzsegst:size(contour.seg,1)
+    if pltzsw == 1
+        pltzseg = [pltzseg, sprintf('  %d\n',iseg)];
+        %       if 10*contour.seg(iseg,4)==input.pltzfn(1)
+        if abs(contour.seg(iseg,3)-input.pltzfn(1))<0.001
+            pltzsw = 0;
+            %         iseg
+        end
+    end
+end
+tmp = strfind(paramdotdg_text, 'starting');
+paramdotdg_text = [paramdotdg_text(1:tmp-1),pltzseg,paramdotdg_text(tmp:end)];
+%Plotzone - starting element -
+tmp = strfind(paramdotdg_text, 'PS');
+paramdotdg_text(tmp:tmp+1)=sprintf('%2d',pltzsegst);
 %Replace "IS" and "IP"
 tmp = strfind(paramdotdg_text, 'IS');
 paramdotdg_text(tmp:tmp+1)=sprintf('%2d', 1);

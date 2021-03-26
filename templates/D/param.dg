@@ -2,6 +2,11 @@ userdata
 p1
 p2
 material
+plotzone 1
+segmlist
+starting
+ PS
+pltz_lbl   sdw
 trg_spcf 1 
 sol_edge 
  IS
