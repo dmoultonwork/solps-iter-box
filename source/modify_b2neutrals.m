@@ -18,9 +18,19 @@ if input.targetendright
 else
     b2neut_text(tmp:tmp+4)=sprintf('%5d',-1);
 end
-% Replace all occurences of "NY" with its actual value:
+% Replace all occurences of "NX", "NY-1", "NY" with its actual value:
 tmp = strfind(b2neut_text, ' NY-1');
-b2neut_text(tmp:tmp+4)=sprintf('%5d',grid.ny-1);
+for i=1:length(tmp)
+    b2neut_text(tmp(i):tmp(i)+4)=sprintf('%5d',grid.ny-1);
+end
+tmp = strfind(b2neut_text, ' NY');
+for i=1:length(tmp)
+    b2neut_text(tmp(i):tmp(i)+2)=sprintf('%3d',grid.ny);
+end
+tmp = strfind(b2neut_text, ' NX-1');
+for i=1:length(tmp)
+    b2neut_text(tmp(i):tmp(i)+4)=sprintf('%5d',grid.nx-1);
+end
 % Replace all occurences of LTNS with the eirene target surface index in
 % block 3a:
 tmp = strfind(b2neut_text, 'LTNS');

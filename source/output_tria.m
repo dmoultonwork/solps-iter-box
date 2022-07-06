@@ -12,7 +12,7 @@ for ic=1:length(contour.tria)
     for i=1:size(contour.tria{ic},1);
         if ~any(ismember(contour.tria{ic}(i,1),grid.rbr) && ismember(contour.tria{ic}(i,2),grid.zbr))
             % Round non-grid segments to block 3b accuracy:
-            fprintf(fid,'%23.14E%23.14E\n',100*str2double(sprintf('%12.5E',contour.tria{ic}(i,1))),100*str2double(sprintf('%12.5E',contour.tria{ic}(i,2))));
+            fprintf(fid,'%23.14E%23.14E\n',str2double(sprintf('%12.5E',100*contour.tria{ic}(i,1))),str2double(sprintf('%12.5E',100*contour.tria{ic}(i,2))));
         else
             fprintf(fid,'%23.14E%23.14E\n',100*contour.tria{ic}(i,1),100*contour.tria{ic}(i,2));
         end

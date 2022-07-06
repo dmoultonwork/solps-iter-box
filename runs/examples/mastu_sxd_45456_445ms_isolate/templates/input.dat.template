@@ -1,0 +1,251 @@
+* EIRENE input file for isolated divertor leg
+*** 1. Data for operating mode                                          
+    -1     1     5 30406     1     1     0     1     0
+    -1     1     0     1     1     9     1     0     1
+TFFTF FFFFF TFFTF F
+CFILE AMJUEL Database/AMdata/amjuel.tex           
+CFILE HYDHEL Database/AMdata/hydhel.tex           
+CFILE SPUTER Database/Surfacedata/SPUTER          
+CFILE TRIM   Database/Surfacedata/TRIM/trim.dat   
+CFILE AMMONX Database/AMdata/AMMONX_Arrh-elast.tex
+*** 2. Data for standard mesh                                           
+     6     1     1
+T
+FFFFT FFF
+  NY+1     1  NX+1     1     0
+ 0.00000E+00 0.00000E+00 0.00000E+00
+T
+FFF
+  NX+1     0     0     0
+ 0.00000E+00 1.00000E+00 0.00000E+00 0.00000E+00
+F
+FTF
+     0     0    60     0
+ 0.00000E+00 0.00000E+00 3.60000E+02 0.00000E+00 1.00000E-05
+F
+** 2e. Data for additional cells outside standard mesh                  
+T
+     1
+ 1.00000E+00
+*** 3a. Data for non-default standard surfaces                          
+     4                                                                          
+*  1: Bottom side                                                                
+     1     1     1     1     1     1  NX+1     0     0
+ ILIIN     0     0     0     0     0     0     0     0     2
+SURFMOD_PFC
+*  2: Top side                                                                
+     2     1  NY+1  NY+1  NY+1     1  NX+1     0     0
+ ILIIN     0     0     0     0     0     0     0     0     1
+SURFMOD_PFC
+*  3: Right side                                                                    
+     3     2  NX+1     1  NY+1  NX+1  NX+1     0     0
+     1     0     0     0     0     0     0     0     0     0
+SURFMOD_RS                    
+*  4: Left side                                                                   
+     4     2     1     1  NY+1     1     1     0     0
+     1     0     0     0     0     0     0     0     0     0
+SURFMOD_LS                    
+*** 3b. Data for additional surfaces                                    
+  NSEG
+*** 4. Data for species and atomic physics module                       
+**  Reactions                                                           
+    18
+  1 AMMONX H.2  R-H-H    EL   1  1 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+  2 AMMONX H.2  R-H-H2   EL   2  1 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+  3 AMJUEL H.4  2.1.5    EI   0  1 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+  4 AMJUEL H.10 2.1.5    EI   0  1 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+  5 HYDHEL H.1  3.1.8    CX   1  1 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+  5 HYDHEL H.3  3.1.8    CX   1  1 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+  6 AMMONX H.2  R-H2-H   EL   1  2 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+  7 AMMONX H.2  R-H2-H2  EL   2  2 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+  8 AMJUEL H.4  2.2.9    EI   0  2 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+  9 AMJUEL H.4  2.2.5g   DS   0  2 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 10 AMJUEL H.4  2.2.10   DS   0  2 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 11 AMJUEL H.0  0.3T     EL   1  2 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 11 AMJUEL H.1  0.3T     EL   1  2 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 11 AMJUEL H.3  0.3T     EL   1  2 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 12 AMJUEL H.2  3.2.3    CX   1  2 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 13 AMJUEL H.4  2.2.12   DS   0  2 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 14 AMJUEL H.4  2.2.11   EI   0  2 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 15 AMJUEL H.4  2.2.14   DS   0  2 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 16 AMJUEL H.8  2.2.14   DS   0  2 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 17 AMJUEL H.4  2.1.8    RC   0  1 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 18 AMJUEL H.10 2.1.8    RC   0  1 1.36000E+01 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+** 4a. Neutral atom species                                             
+     1
+ 1 D         2  1  1  0  1 -1  0  4  0  0  0
+     1   214   111   214  1001     0   111
+ 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00 0.00000E+00
+     2   314   111   314  1001     0   112
+ 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00 0.00000E+00
+     3   115   114     0 30000     0     0
+ 4.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00 0.00000E+00
+     5   114   111   114  1001     0     0
+ 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00 0.00000E+00
+** 4b. Neutral molecule species                                         
+     1
+ 1 D2        4  2  2  0  0  1  0  7  0  0  0  1
+     6   414   112   414  1001     0   111
+ 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00
+     7   514   112   514  1001     0   112
+ 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00
+     8   115   113     0     0     0     0
+-1.54000E+01 0.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00
+     9   115   121     0     0     0     0
+-1.05000E+01 0.00000E+00 3.00000E+00 3.00000E+00 1.00000E+00
+    10   115   111   114     0     0     0
+-2.50000E+01 0.00000E+00 5.00000E+00 5.00000E+00 1.00000E+00
+    11   114   114   112  1001     0     0
+ 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00
+    12   114   111   113  1001     0     0
+ 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00
+** 4c. Test ion species                                                 
+     1
+ 1 D2+       4  2  2  1  0 -1  0  3 -1  0  0  1
+    13   115   111   114     0     0     0
+-1.04000E+01 0.00000E+00 4.30000E+00 4.30000E+00 1.00000E+00
+    14   115   124     0     0     0     0
+-1.55000E+01 0.00000E+00 2.50000E-01 2.50000E-01 1.00000E+00
+    15   115   121     0 30300     0     0
+ 1.60000E+01 0.00000E+00 1.60000E+01 0.00000E+00 1.00000E+00
+*** 5. Data for plasma background                                       
+** 5a. Bulk ion species                                                 
+     5
+ 1 D+        2  1  1  1  1 -1  0  1  0  0  0  0             0
+    17   115   111     0 30000
+ 1.80000E+01 0.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00
+ 2 D(B)      2  1  1  0  1 -1  0  0  0  0  0  0             0
+ 3 D2D(B)    2  1  1  0  1 -1  0  0  0  0  0  0             0
+ 4 DD2(B)    4  2  2  0  0  1  0  0  0  0  0  0             0
+ 5 D2(B)     4  2  2  0  0  1  0  0  0  0  0  0             0
+** 5b. Plasma background data                                           
+     6     6     6     6     6     6     0     0     0     0     9     0
+ 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+*** 6a. General data for reflection model                               
+T
+cpath modules/Eirene/Database/Surfacedata/TRIM/                   
+D_on_C  
+ 1.00000E+00
+ 1.00000E+00
+ 1.00000E+00
+ 1.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 1.00000E+00 5.00000E+01 1.00000E-01 0.00000E+00 0.00000E+00 0.00000E+00
+SURFMOD_PFC
+     1     0     2     2     1
+ 1.20600E+03       EWALL 0.00000E+00 0.00000E+00 0.00000E+00-1.00000E+00
+ 1.00000E+00 9.99000E-01 1.00000E+00 1.00000E+00 5.00000E-01 1.00000E+00
+ 1.00000E+00 1.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00
+SURFMOD_DIVENT
+     1     0     2     2     1
+ 1.20600E+03       EWALL 0.00000E+00 0.00000E+00 0.00000E+00-1.00000E+00
+ 1.00000E+00 0.00000E+00 1.00000E+00 1.00000E+00 5.00000E-01 1.00000E+00
+ 1.00000E+00 1.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00
+SURFMOD_PUMP
+     1     0     2     2     1
+ 1.20600E+03       EWALL 0.00000E+00 0.00000E+00 0.00000E+00-1.00000E+00
+ 1.00000E+00 9.71200E-01 1.00000E+00 1.00000E+00 5.00000E-01 1.00000E+00
+ 1.00000E+00 1.00000E+00 0.00000E+00 0.00000E+00 1.00000E+00
+*** 7. Data for primary sources, nstrai strata                                  
+     4
+     6     6     6    -1
+ 5.00000E-01
+*   2 : Volumetric recombination D                                      
+FFFFF
+ 25000  4001     6     1     0
+ 1.00000E+00 0.00000E+00     0     0     0     0     0     0     0     0
+FFFTF
+     1
+FFFTF
+     1
+     2     0     0     0     0     0     0     0     0
+ 1.00000E+00 1.40000E+02 1.00000E+00 0.00000E+00 0.00000E+00
+     0     0     0     0     0     0     0
+ 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+ 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00
+*** 8. Additional data for specific zones                               
+     0
+*** 9. Data for statistic and non-analog model                          
+FFFFF FFFFF FFF
+     0
+     0     0     0     0     0
+ 1.00000E+03 1.00000E-02 0.00000E+00
+ 2.00000E+00
+**  Standard deviation                                                  
+     0     0     0     0
+*** 10. Data for additional tallies                                     
+     8     0     0     0     0     0
+** 10a. Volume tallies - tracklength estimator                          
+     1     1     0     1
+RADIAL PARTICLE FLUXES, VOLUME-AVERAGED                                 
+D ATOMS                 #/CM**2/S               
+     1     2     0     1
+RADIAL PARTICLE FLUXES, VOLUME-AVERAGED                                 
+D2 MOLECULES            #/CM**2/S               
+     1     1     0     1
+RADIAL ENERGY FLUXES, VOLUME-AVERAGED                                   
+D ATOMS                 EV/CM**2/S              
+     1     2     0     1
+RADIAL ENERGY FLUXES, VOLUME-AVERAGED                                   
+D2 MOLECULES            EV/CM**2/S              
+     1     1     0     1
+PARALLEL PARTICLE FLUXES, VOLUME-AVERAGED                               
+D ATOMS                 #/CM**2/S               
+     1     2     0     1
+PARALLEL PARTICLE FLUXES, VOLUME-AVERAGED                               
+D2 MOLECULES                                    
+     1     1     0     1
+PARALLEL ENERGY FLUXES, VOLUME-AVERAGED                                 
+D ATOMS                 EV/CM**2/S              
+     1     2     0     1
+PARALLEL ENERGY FLUXES, VOLUME-AVERAGED                                 
+D2 MOLECULES            EV/CM**2/S              
+** 10b. Volume tallies - collisional estimator                          
+** 10c. Volume tallies - algebraic expressions                          
+** 10d. Surface tallies                                                 
+** 10e. Surface tallies - algebraic expressions                         
+** 10f. Data for energy spectra                                         
+*** 11. Data for numerical and graphical output                         
+FFFFF FFFFF FFFFF FFFFF FFFFF FFFFF FFFFF
+TFFFF FFFFF FFFFF FFFFF FFFFF
+     0
+     0
+FFFFF FFFFF FFFFF F
+     1  NY+1     1     1  NX+1     1     0     0     0     0
+F                          0
+F                          0
+F                          0
+F                          0
+F                          0
+F                          0
+F                          0
+F                          0
+ 2.27745E+02 2.27745E+02 1.13050E+02 0.00000E+00 0.00000E+00
+ 1.00000E+01 1.00000E+01 0.00000E+00 0.00000E+00 1.00000E+01 1.00000E+01
+ 1.00000E+01 1.00000E+01 0.00000E+00
+     0     0     0     0     0     0     0     0     0     0     2
+     0
+*** 12. Data for diagnostic module                                      
+DEFINE_LINES
+     0     1
+     0     0     0     0     0     0     0     0
+*** 13. Data for nonlinear and time dep. option                         
+     0    -1
+*** 14. Data for interfacing routine "infusr"                           
+FTFFT
+     1     0     1     0     0     0     1     1     1
+     1     1 1.00000E+00 2.00000E+00     1
+     2   -13 0.00000E+00 2.00000E+00     1
+     3   -13 0.00000E+00 2.00000E+00     1
+     4   -13 0.00000E+00 4.00000E+00     1
+     5   -13 0.00000E+00 4.00000E+00     1
+    NX    NY
+     3
+     1     1     1
+     1     0    -1     2     1  NX+1     0  2000     0     1     1     6
+     2    NY     1     2     1  NX+1     0  2000     0     1     1     6
+     3 TARIX TARDR     1     1  NY+1     0 25000     1     1     1     7
+ 6.00000E+01 6.00000E+01 1.00000E+02 5.00000E+01
+     0     0     0
+     0
+*** 15. Data for interfacing routine "geousr"                           

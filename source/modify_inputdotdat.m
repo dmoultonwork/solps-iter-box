@@ -74,9 +74,9 @@ for iseg = 1:size(contour.seg,1)
     block3b = [block3b,sprintf('*%4d :%4d\n',il,il)];
     block3b = [block3b,sprintf(' 2.00000E+00 1.00000E+00 1.00000E+00 1.00000E-05\n')];
     if iseg<contour.limpos_tl
-        block3b = [block3b,sprintf('     1     0     0     0     0     1     0     0     0     1\n')];
+        block3b = [block3b,sprintf('     1     1     0     0     0     1     0     0     0     1\n')];
     else
-        block3b = [block3b,sprintf('     1     0     0     0     0     1     0     0     0     2\n')];
+        block3b = [block3b,sprintf('     1     1     0     0     0     1     0     0     0     2\n')];
     end
     block3b = [block3b,sprintf('%12.5E%12.5E%12.5E%12.5E%12.5E%12.5E\n',100*contour.seg(iseg,1),100*contour.seg(iseg,2),-1E20,100*contour.seg(iseg,3),100*contour.seg(iseg,4),1E20)];
 %---From here modified/added by Ryoko 1/3---
@@ -149,11 +149,13 @@ for i=1:size(contour.pump,1)
     pump_area = pump_area+sqrt((contour.pump(i,1)-contour.pump(i,3))^2+(contour.pump(i,2)-contour.pump(i,4))^2)*2*pi*0.5*(contour.pump(i,1)+contour.pump(i,3));
 end
 tmp = strfind(input_text, '     TRANSP'); % From P1 to P2 of pumping segment, left side is transparent, right side is transparent with following probability, otherwise absorbing
-transp = 1-input.pumpspeed/pump_area/(0.25*sqrt(8*1.38064852E-23/pi/1.6726219e-27))/sqrt(11604.51812*input.walltemp/4);
-if transp<0
-    error('Maximum possible pumping speed exceeded');
+if ~isempty(tmp)
+    transp = 1-input.pumpspeed/pump_area/(0.25*sqrt(8*1.38064852E-23/pi/1.6726219e-27))/sqrt(11604.51812*input.walltemp/4);
+    if transp<0
+        error('Maximum possible pumping speed exceeded');
+    end
+    input_text(tmp(i):tmp(i)+10)=sprintf('%11.5E',transp);
 end
-input_text(tmp(i):tmp(i)+10)=sprintf('%11.5E',transp);
 
 % Write block 15 at the end: % Fix this for non-isolated, non-tight grids
 if input.isolate_existing_grid

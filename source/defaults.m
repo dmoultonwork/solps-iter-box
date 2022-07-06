@@ -41,8 +41,9 @@ input.lbcen = 0.005; % Fall off length  in energy boundary condition AKA lambda_
 input.n0 = 1.0E19; % Density at divertor entrance first SOL ring (/m3)
 input.nupll0 = 1.0E23; 
 input.nu0param = 3.0;
-input.qpll0 = 0.63772546E8; % q|| at divertor entrance first SOL ring, mapped to midplane (mapping only affects actual q|| at the entrance when isolating an existing grid) (W/m2)
+input.qepll0 = 0.63772546E8; % q||e at divertor entrance first SOL ring, mapped to midplane (mapping only affects actual q||e at the entrance when isolating an existing grid) (W/m2)
 input.qipll0 = 0.63772546E8; % the same as the above for the ion (22/10/2020, Ryoko)
+input.pfrbcmom = 1; % BCMOM for D+ ions for the PFR (see solps-iter manual). Corresponding MOMPAR is always 0, so pfrbcmom==1 gives zero velocity, pfrbcmom==2 gives zero velocity gradient.
 %% EIRENE inputs for additional surfaces:
 input.walltemp = 8.61734E-2; % Temperature of wall specified in input.dat file (eV). Default corresponds to 1000 K
 input.pumpspeed = 4.1403; % Pump speed assuming oneway Maxwellian flux with wall temp (m3/s). Default set such that the recycling coefficient in the straight down case is 0.99
@@ -58,5 +59,6 @@ input.pumplength = 0.1; % Length of the pumping surface, placed at the top right
 input.pumpprotect = 0.1; % Fraction of radial extent of box at which to place a wall structure to protect the pump
 input.pumpthroat = 0.05; % Length of the width open to the pump (relative to the radial extent of the box)
 input.wallgap = 0.001; % Gap between the EIRENE bounding wall and the radial edges of the B2.5 grid (m). Defaults to a tight gap of just 1 cm.
-input.wallmater = 'C';%wall material
+input.wallmater = 'C';% Wall material
 input.densbc = 'density';
+input.write_param = false; % if(true) then write a param.dg file (needed for wall loading script wlld, but this part of the code is not yet general).
